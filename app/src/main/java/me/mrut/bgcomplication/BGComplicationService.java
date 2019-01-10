@@ -19,9 +19,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 
-/**
- * Example watch face complication data provider provides a number that can be incremented on tap.
- */
 public class BGComplicationService extends ComplicationProviderService {
 
     private static final String TAG = "ComplicationProvider";
@@ -131,7 +128,9 @@ public class BGComplicationService extends ComplicationProviderService {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        String sURL = "http://YOUR_SITE.herokuapp.com/api/v1/entries.json?count=1"; //just a string
+        MainActivity mainActivity = new MainActivity();
+        String sURL = "http://" + mainActivity.mNightscoutPath + "/api/v1/entries.json?count=1";
+
 
         URL url = new URL(sURL);
         URLConnection request = url.openConnection();

@@ -5,32 +5,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_grey"
-    android:padding="@dimen/box_inset_layout_padding"
+    android:padding="15sp"
     tools:context=".MainActivity"
     tools:deviceIds="wear">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/inner_frame_layout_padding"
-        app:boxedEdges="all">
+        android:layout_margin="5sp">
 
         <TextView
-            android:id="@+id/currentBG"
+            android:id="@+id/CurrentBG"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="BG" />
+            android:fontFamily="@font/roboto_condensed_regular"
+            android:text="{current_bg}"
+            android:textAlignment="viewStart"
+            android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/nightscoutPath"
+            android:id="@+id/NightscoutPath"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:fontFamily="@font/roboto_condensed_regular"
             android:inputType="textUri"
             android:selectAllOnFocus="false"
             android:singleLine="true"
             android:text="YOUR_SITE.herokuapp.com"
-            android:textSize="15sp" />
-
+            android:textSize="16sp" />
     </FrameLayout>
 </android.support.wear.widget.BoxInsetLayout>
