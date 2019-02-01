@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">BGComplication</string>
     <string name="bgcomplications_service_label">BGComplication</string>
+    <string name="nightscout_url">YOUR_SITE.herokuapp.com</string>
 </resources>

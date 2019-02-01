@@ -3,16 +3,19 @@ package me.mrut.bgcomplication;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.widget.TextView;
+import android.view.View;
 
 import java.io.IOException;
 
 public class MainActivity extends WearableActivity {
 
-    private TextView mTextView;
     private TextView mCurrentBG;
-    public TextView mNightscoutPath;
+    private TextView mNightscoutPath;
 
     public void updateBG() throws IOException {
+        mNightscoutPath = findViewById(R.id.NightscoutPath);
+        SharedPref.write(SharedPref.nightscout_url, mNightscoutPath.getText().toString());
+
         mCurrentBG = findViewById(R.id.CurrentBG);
         BGComplicationService bgComplicationService = new BGComplicationService();
         mCurrentBG.setText(bgComplicationService.BGWebRequest());
@@ -24,7 +27,7 @@ public class MainActivity extends WearableActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextView = (TextView) findViewById(R.id.text);
+        SharedPref.init(getApplicationContext());
 
         try {
             updateBG();
@@ -33,8 +36,10 @@ public class MainActivity extends WearableActivity {
         }
 
 
-        // Enables Always-on
-        //setAmbientEnabled();
+    }
+
+    public void onClickFetchBG(View v) throws IOException {
+        updateBG();
     }
 
 

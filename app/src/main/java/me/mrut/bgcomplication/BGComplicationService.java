@@ -1,6 +1,9 @@
 package me.mrut.bgcomplication;
 
+import android.content.SharedPreferences;
 import android.os.StrictMode;
+import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.support.wearable.complications.ComplicationData;
 import android.support.wearable.complications.ComplicationManager;
 import android.support.wearable.complications.ComplicationProviderService;
@@ -83,6 +86,13 @@ public class BGComplicationService extends ComplicationProviderService {
             int complicationId, int dataType, ComplicationManager complicationManager) {
         Log.d(TAG, "onComplicationUpdate() id: " + complicationId);
 
+        // Create Tap Action so that the user can trigger an update by tapping the complication.
+        ComponentName thisProvider = new ComponentName(this, getClass());
+        // We pass the complication id, so we can only update the specific complication tapped.
+        PendingIntent complicationPendingIntent =
+                ComplicationTapBroadcastReceiver.getToggleIntent(
+                        this, thisProvider, complicationId);
+
         String numberText = null;
         try {
             numberText = BGWebRequest();
@@ -97,6 +107,7 @@ public class BGComplicationService extends ComplicationProviderService {
                 complicationData =
                         new ComplicationData.Builder(ComplicationData.TYPE_SHORT_TEXT)
                                 .setShortText(ComplicationText.plainText(numberText))
+                                .setTapAction(complicationPendingIntent)
                                 .build();
                 break;
             default:
@@ -128,9 +139,7 @@ public class BGComplicationService extends ComplicationProviderService {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        MainActivity mainActivity = new MainActivity();
-        String sURL = "http://" + mainActivity.mNightscoutPath + "/api/v1/entries.json?count=1";
-
+        String sURL = "http://" + SharedPref.read(SharedPref.nightscout_url, "DEFAULTSITE.herokuapp.com") + "/api/v1/entries.json?count=1";
 
         URL url = new URL(sURL);
         URLConnection request = url.openConnection();
@@ -150,6 +159,9 @@ public class BGComplicationService extends ComplicationProviderService {
         String BGarrow = null;
 
         switch (BGtrend) {
+            case 0 :
+                BGarrow = "⇼";
+                break;
             case 1 :
                 BGarrow = "↑↑";
                 break;
@@ -173,7 +185,6 @@ public class BGComplicationService extends ComplicationProviderService {
                 break;
         }
 
-        String BG = BGdouble + BGarrow;
-        return BG;
+        return BGdouble + " " + BGarrow;
     }
 }
