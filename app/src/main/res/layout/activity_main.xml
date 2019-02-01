@@ -96,17 +96,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
 
-            <Button
-                android:id="@+id/FetchBG"
+            <CheckBox
+                android:id="@+id/mmolmgCheck"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fetch BG Now"
-                android:onClick="onClickFetchBG" />/>
+                android:checked="true"
+                android:fontFamily="@font/roboto_condensed_regular"
+                android:text="Convert BG to mmol"
+                android:textSize="16sp" /><![CDATA[
+
+            />
+
+            ]]>
 
             <View
                 android:id="@+id/divider8"
                 android:layout_width="match_parent"
                 android:layout_height="16dp" />
+
+            <Button
+                android:id="@+id/FetchBG"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_condensed_bold"
+                android:onClick="onClickFetchBG"
+                android:text="Fetch BG Now" />
 
             <View
                 android:id="@+id/divider9"

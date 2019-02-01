@@ -151,8 +151,8 @@ public class BGComplicationService extends ComplicationProviderService {
         JsonArray jarray = root.getAsJsonArray();
         JsonObject jobject = jarray.get(0).getAsJsonObject();
 
-        //Get BG, round to 1 place, convert to mmol
-        double BGdouble = Math.round((jobject.get("sgv").getAsDouble() / 18) * 10.0) / 10.0;
+        //Get BG
+        Double BGdouble = jobject.get("sgv").getAsDouble();
 
         //Get trend and convert to arrow
         int BGtrend = jobject.get("trend").getAsInt();
@@ -185,6 +185,15 @@ public class BGComplicationService extends ComplicationProviderService {
                 break;
         }
 
-        return BGdouble + " " + BGarrow;
+        //Check pref and convert to mmol/mg, round value
+        String BGresult = "000";
+        if(SharedPref.read(SharedPref.mmolmg_pref, true)) {
+            BGdouble = Math.round((BGdouble / 18) * 10.0) / 10.0;
+            BGresult = BGdouble + " " + BGarrow;
+        } else {
+            BGresult = BGdouble.intValue() + " " + BGarrow;
+        }
+
+        return BGresult;
     }
 }
